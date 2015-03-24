@@ -1,5 +1,5 @@
 //
-//  Graph.swift
+//  SGGraph.swift
 //  SpaTyper
 //
 //  Created by Alexandre Lopoukhine on 03/03/2015.
@@ -9,28 +9,28 @@
 import Foundation
 
 
-public class Graph<N: Equatable, E: Hashable>: Printable {
+public class SGGraph<N: Equatable, E: Hashable>: Printable {
     typealias NodeValueType = N
     typealias EdgeValueType = E
     
     public var nodeIDCounter   = 1
     
-    public var nodes: Set<Node<NodeValueType, EdgeValueType>> = Set<Node<NodeValueType, EdgeValueType>>()
+    public var nodes: Set<SGNode<NodeValueType, EdgeValueType>> = Set<SGNode<NodeValueType, EdgeValueType>>()
     
     public init() {
         
     }
     
-    public func addNode(nodeValue: NodeValueType) -> Node<NodeValueType, EdgeValueType> {
-        let newNode = Node<NodeValueType, EdgeValueType>(nodeID: nodeIDCounter, value: nodeValue)
+    public func addNode(nodeValue: NodeValueType) -> SGNode<NodeValueType, EdgeValueType> {
+        let newNode = SGNode<NodeValueType, EdgeValueType>(nodeID: nodeIDCounter, value: nodeValue)
         nodeIDCounter++
         assert(!nodes.contains(newNode), "Error while inserting node")
         nodes.insert(newNode)
         return newNode
     }
     
-    public func addEdge(edgeValue: EdgeValueType, fromNode: Node<NodeValueType, EdgeValueType>, toNode: Node<NodeValueType, EdgeValueType>) -> Bool {
-        let newEdge: Edge<NodeValueType, EdgeValueType> = Edge(edgeValue: edgeValue, nodeStart: fromNode, nodeEnd: toNode)
+    public func addEdge(edgeValue: EdgeValueType, fromNode: SGNode<NodeValueType, EdgeValueType>, toNode: SGNode<NodeValueType, EdgeValueType>) -> Bool {
+        let newEdge: SGEdge<NodeValueType, EdgeValueType> = SGEdge(edgeValue: edgeValue, nodeStart: fromNode, nodeEnd: toNode)
         
         if nodes.contains(fromNode) && nodes.contains(toNode) {
             fromNode.edgesOut.insert(newEdge)
@@ -63,8 +63,8 @@ public class Graph<N: Equatable, E: Hashable>: Printable {
         return description
     }
     
-    var edges: Set<Edge<N,E>> {
-        var edges = Set<Edge<N,E>>()
+    var edges: Set<SGEdge<N,E>> {
+        var edges = Set<SGEdge<N,E>>()
         
         for node in nodes {
             edges.unionInPlace(node.edgesIn)
@@ -74,7 +74,7 @@ public class Graph<N: Equatable, E: Hashable>: Printable {
         return edges
     }
     
-    public var hamiltonianPaths: [[Edge<N,E>]] {
+    public var hamiltonianPaths: [[SGEdge<N,E>]] {
         
         // Assume path exists
         
@@ -83,11 +83,11 @@ public class Graph<N: Equatable, E: Hashable>: Printable {
         // Calculate forward closures, and sort by their size
         // The first node will include all other nodes
         
-        func forwardClosure(node: Node<N,E>) -> Set<Node<N,E>> {
-            var closure = Set<Node<N,E>>()
+        func forwardClosure(node: SGNode<N,E>) -> Set<SGNode<N,E>> {
+            var closure = Set<SGNode<N,E>>()
             closure.insert(node)
             
-            var queue = Set<Node<N,E>>()
+            var queue = Set<SGNode<N,E>>()
             
             for edge in node.edgesOut {
                 queue.insert(edge.nodeEnd)
@@ -107,17 +107,17 @@ public class Graph<N: Equatable, E: Hashable>: Printable {
             return closure
         }
         
-        let closurePairs: [(node: Node<N,E>, closure: Set<Node<N,E>>)] = Array<Node<N,E>>(nodes).map() {return ($0,forwardClosure($0))}
-        let sortedPairs = closurePairs.sorted() { (pair1: (node: Node<N,E>, closure: Set<Node<N,E>>), pair2: (node: Node<N,E>, closure: Set<Node<N,E>>)) -> Bool in
+        let closurePairs: [(node: SGNode<N,E>, closure: Set<SGNode<N,E>>)] = Array<SGNode<N,E>>(nodes).map() {return ($0,forwardClosure($0))}
+        let sortedPairs = closurePairs.sorted() { (pair1: (node: SGNode<N,E>, closure: Set<SGNode<N,E>>), pair2: (node: SGNode<N,E>, closure: Set<SGNode<N,E>>)) -> Bool in
             return pair1.closure.isSupersetOf(pair2.closure)
         }
         
-        let closureSizePairs = sortedPairs.map() { (node: Node<N,E>, closure: Set<Node<N,E>>) -> (node: Node<N,E>, count: Int) in
+        let closureSizePairs = sortedPairs.map() { (node: SGNode<N,E>, closure: Set<SGNode<N,E>>) -> (node: SGNode<N,E>, count: Int) in
             return (node, closure.count)
         }
         
         // Work backwards to isolate separate parts of graph
-        var pathComponents: [[Node<N,E>]] = []
+        var pathComponents: [[SGNode<N,E>]] = []
         
         if closureSizePairs.count == 0 {
             return []
@@ -139,25 +139,25 @@ public class Graph<N: Equatable, E: Hashable>: Printable {
 //        println("Path components: \n\(pathComponents.map({return $0.map({return $0.nodeID})}))\n")
         
         // Build
-        var partialPaths: [Path<N,E>] = []
+        var partialPaths: [SGPath<N,E>] = []
         
         // Insert paths in first component
-        partialPaths = hamiltonianPathsForNodes(Set<Node<N,E>>(pathComponents[0]))
+        partialPaths = hamiltonianPathsForNodes(Set<SGNode<N,E>>(pathComponents[0]))
         
         for index in 1..<pathComponents.count {
             // Can do much faster with memoization
             // Even with a dumb array with stored values
             
-            let pathComponentPaths = hamiltonianPathsForNodes(Set<Node<N,E>>(pathComponents[index]))
+            let pathComponentPaths = hamiltonianPathsForNodes(Set<SGNode<N,E>>(pathComponents[index]))
             
-            var newPaths: [Path<N,E>] = []
+            var newPaths: [SGPath<N,E>] = []
             
             for pathSoFar in partialPaths {
                 for componentPath in pathComponentPaths {
                     // find possible edges
                     for edge in pathSoFar.endNode.edgesOut {
                         if componentPath.startNode == edge.nodeEnd {
-                            newPaths.append(Path<N,E>(path: pathSoFar.path + [edge] + componentPath.path, endNode: componentPath.endNode))
+                            newPaths.append(SGPath<N,E>(path: pathSoFar.path + [edge] + componentPath.path, endNode: componentPath.endNode))
                         }
                     }
                 }
@@ -176,13 +176,13 @@ public class Graph<N: Equatable, E: Hashable>: Printable {
         return partialPaths.map({$0.path})
     }
     
-    func hamiltonianPathsForNodes(nodes: Set<Node<N,E>>) -> [Path<N,E>] {
+    func hamiltonianPathsForNodes(nodes: Set<SGNode<N,E>>) -> [SGPath<N,E>] {
         if nodes.count == 0 {
             return []
         } else if nodes.count == 1 {
-            return [Path<N,E>(path: [], endNode: nodes.first!)]
+            return [SGPath<N,E>(path: [], endNode: nodes.first!)]
         } else {
-            var paths: [Path<N,E>] = []
+            var paths: [SGPath<N,E>] = []
             
             for node in nodes {
                 var otherNodes = nodes
@@ -198,17 +198,17 @@ public class Graph<N: Equatable, E: Hashable>: Printable {
     }
     
     // Returns path through all the Nodes in nodes, starting at beforeNode
-    func hamiltonianPathsForNodes(nodes: Set<Node<N,E>>, fromNode beforeNode: Node<N,E>) -> [Path<N,E>] {
+    func hamiltonianPathsForNodes(nodes: Set<SGNode<N,E>>, fromNode beforeNode: SGNode<N,E>) -> [SGPath<N,E>] {
         if nodes.count == 0 {
             return []
         } else if nodes.count == 1 {
-            var paths: [Path<N,E>] = []
+            var paths: [SGPath<N,E>] = []
             
             let endNode = nodes.first!
             
             for edge in beforeNode.edgesOut {
                 if endNode == edge.nodeEnd {
-                    paths.append(Path<N,E>(path: [edge], endNode: endNode))
+                    paths.append(SGPath<N,E>(path: [edge], endNode: endNode))
                 }
             }
             
@@ -219,7 +219,7 @@ public class Graph<N: Equatable, E: Hashable>: Printable {
                 
             }
             
-            var paths: [Path<N,E>] = []
+            var paths: [SGPath<N,E>] = []
             
             for edge in beforeNode.edgesOut {
                 if nodes.contains(edge.nodeEnd) {
@@ -230,7 +230,7 @@ public class Graph<N: Equatable, E: Hashable>: Printable {
                     let laterPaths = hamiltonianPathsForNodes(laterSet, fromNode: nextNode)
                     
                     for laterPath in laterPaths {
-                        paths.append(Path<N,E>(path: [edge] + laterPath.path, endNode: laterPath.endNode))
+                        paths.append(SGPath<N,E>(path: [edge] + laterPath.path, endNode: laterPath.endNode))
                     }
                 }
             }
@@ -241,8 +241,8 @@ public class Graph<N: Equatable, E: Hashable>: Printable {
         }
     }
     
-    func edgesForNodes(nodes: Set<Node<N,E>>) -> Set<Edge<N,E>> {
-        var edges = Set<Edge<N,E>>()
+    func edgesForNodes(nodes: Set<SGNode<N,E>>) -> Set<SGEdge<N,E>> {
+        var edges = Set<SGEdge<N,E>>()
         
         for node in nodes {
             for edge in node.edgesOut {
@@ -255,8 +255,8 @@ public class Graph<N: Equatable, E: Hashable>: Printable {
         return edges
     }
     
-    public var reverseEdgeDictionary: [Node<N,E>:[Node<N,E>:Edge<N,E>]] {
-        var dictionary: [Node<N,E>:[Node<N,E>:Edge<N,E>]] = [:]
+    public var reverseEdgeDictionary: [SGNode<N,E>:[SGNode<N,E>:SGEdge<N,E>]] {
+        var dictionary: [SGNode<N,E>:[SGNode<N,E>:SGEdge<N,E>]] = [:]
         
         for edge in edges {
             if var dict = dictionary[edge.nodeStart] {

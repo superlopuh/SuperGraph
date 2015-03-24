@@ -1,5 +1,5 @@
 //
-//  Edge.swift
+//  SGEdge.swift
 //  SpaTyper
 //
 //  Created by Alexandre Lopoukhine on 03/03/2015.
@@ -9,13 +9,13 @@
 import Foundation
 
 
-public class Edge<N: Equatable,E: Hashable>: Equatable, Hashable, Printable {
+public class SGEdge<N: Equatable,E: Hashable>: Equatable, Hashable, Printable {
     typealias ValueType     = E
     typealias NodeValueType = N
     
     public let edgeValue: ValueType
-    public let nodeStart: Node<N,E>
-    public let nodeEnd:   Node<N,E>
+    public let nodeStart: SGNode<N,E>
+    public let nodeEnd:   SGNode<N,E>
     
     public var hashValue: Int {
         let edgeHash = edgeValue.hashValue
@@ -25,7 +25,7 @@ public class Edge<N: Equatable,E: Hashable>: Equatable, Hashable, Printable {
         return hash
     }
     
-    public init(edgeValue: ValueType, nodeStart: Node<N,E>, nodeEnd: Node<N,E>) {
+    public init(edgeValue: ValueType, nodeStart: SGNode<N,E>, nodeEnd: SGNode<N,E>) {
         self.edgeValue  = edgeValue
         self.nodeStart  = nodeStart
         self.nodeEnd    = nodeEnd
@@ -36,6 +36,6 @@ public class Edge<N: Equatable,E: Hashable>: Equatable, Hashable, Printable {
     }
 }
 
-public func ==<N,E>(lhs: Edge<N,E>, rhs: Edge<N,E>) -> Bool {
+public func ==<N,E>(lhs: SGEdge<N,E>, rhs: SGEdge<N,E>) -> Bool {
     return lhs.edgeValue == rhs.edgeValue && lhs.nodeStart == rhs.nodeStart && lhs.nodeEnd == rhs.nodeEnd
 }

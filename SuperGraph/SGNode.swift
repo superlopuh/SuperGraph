@@ -1,5 +1,5 @@
 //
-//  Node.swift
+//  SGNode.swift
 //  SpaTyper
 //
 //  Created by Alexandre Lopoukhine on 03/03/2015.
@@ -9,14 +9,14 @@
 import Foundation
 
 
-public class Node<N: Equatable,E: Hashable>: Equatable, Hashable, Printable {
+public class SGNode<N: Equatable,E: Hashable>: Equatable, Hashable, Printable {
     typealias ValueType = N
     typealias EdgeValueType = E
     
     public let nodeID: Int
     public var value: ValueType
-    public var edgesIn: Set<Edge<N,EdgeValueType>>  = Set<Edge<N,EdgeValueType>>()
-    public var edgesOut: Set<Edge<N,EdgeValueType>> = Set<Edge<N,EdgeValueType>>()
+    public var edgesIn: Set<SGEdge<N,EdgeValueType>>  = Set<SGEdge<N,EdgeValueType>>()
+    public var edgesOut: Set<SGEdge<N,EdgeValueType>> = Set<SGEdge<N,EdgeValueType>>()
     
     public var hashValue: Int {
         return nodeID
@@ -40,8 +40,8 @@ public class Node<N: Equatable,E: Hashable>: Equatable, Hashable, Printable {
         return description
     }
     
-    public lazy var nodesOut: Set<Node<N,E>> = {
-        var nodesOut = Set<Node<N,E>>()
+    public lazy var nodesOut: Set<SGNode<N,E>> = {
+        var nodesOut = Set<SGNode<N,E>>()
         
         for edge in self.edgesOut {
             nodesOut.insert(edge.nodeEnd)
@@ -50,8 +50,8 @@ public class Node<N: Equatable,E: Hashable>: Equatable, Hashable, Printable {
         return nodesOut
     }()
     
-    public lazy var nodesIn: Set<Node<N,E>> = {
-        var nodesIn = Set<Node<N,E>>()
+    public lazy var nodesIn: Set<SGNode<N,E>> = {
+        var nodesIn = Set<SGNode<N,E>>()
         
         for edge in self.edgesIn {
             nodesIn.insert(edge.nodeEnd)
@@ -61,7 +61,7 @@ public class Node<N: Equatable,E: Hashable>: Equatable, Hashable, Printable {
     }()
 }
 
-public func ==<N,E>(lhs: Node<N,E>, rhs: Node<N,E>) -> Bool {
+public func ==<N,E>(lhs: SGNode<N,E>, rhs: SGNode<N,E>) -> Bool {
     return lhs.nodeID == rhs.nodeID
 }
 

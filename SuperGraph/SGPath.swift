@@ -1,5 +1,5 @@
 //
-//  Path.swift
+//  SGPath.swift
 //  SuperGraph
 //
 //  Created by Alexandre Lopoukhine on 17/03/2015.
@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct Path<N: Equatable,E: Hashable> : Printable {
-    let path:      [Edge<N,E>]
-    let startNode:  Node<N,E>
-    let endNode:    Node<N,E>
+struct SGPath<N: Equatable,E: Hashable> : Printable {
+    let path:      [SGEdge<N,E>]
+    let startNode:  SGNode<N,E>
+    let endNode:    SGNode<N,E>
     
-    init(path: [Edge<N,E>], endNode: Node<N,E>) {
+    init(path: [SGEdge<N,E>], endNode: SGNode<N,E>) {
         if let startNode = path.first?.nodeStart {
             // Path is not empty
             self.path       = path
