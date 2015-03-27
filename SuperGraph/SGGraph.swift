@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class SGGraph<N: Equatable, E: Hashable>: Printable {
+public class SGGraph<N, E: Hashable>: Printable {
     typealias NodeValueType = N
     typealias EdgeValueType = E
     

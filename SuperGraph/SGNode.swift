@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class SGNode<N: Equatable,E: Hashable>: Equatable, Hashable, Printable {
+public class SGNode<N,E: Hashable>: Equatable, Hashable, Printable {
     typealias ValueType = N
     typealias EdgeValueType = E
     

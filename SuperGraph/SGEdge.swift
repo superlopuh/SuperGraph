@@ -9,7 +9,7 @@
 import Foundation
 
 
-public class SGEdge<N: Equatable,E: Hashable>: Equatable, Hashable, Printable {
+public class SGEdge<N,E: Hashable>: Equatable, Hashable, Printable {
     typealias ValueType     = E
     typealias NodeValueType = N
     

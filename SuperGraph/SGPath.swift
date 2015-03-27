@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct SGPath<N: Equatable,E: Hashable> : Printable {
+struct SGPath<N,E: Hashable> : Printable {
     let path:      [SGEdge<N,E>]
     let startNode:  SGNode<N,E>
     let endNode:    SGNode<N,E>
