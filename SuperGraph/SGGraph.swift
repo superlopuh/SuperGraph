@@ -269,5 +269,15 @@ public class SGGraph<N, E: Hashable>: Printable {
         
         return dictionary
     }
+    
+    public func dotDescriptionWithName(name: String) -> String {
+        var dotDescription = "digraph \(name) {"
+        
+        for edge in edges {
+            dotDescription += "\n\t\(edge.nodeStart.nodeID) -> \(edge.nodeEnd.nodeID);"
+        }
+        
+        return dotDescription + "\n}\n"
+    }
 }
 
