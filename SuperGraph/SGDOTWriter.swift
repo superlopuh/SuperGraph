@@ -26,8 +26,18 @@ public class SGDOTWriter {
         
         // Create new .dot file
         if let dotFilePath = outputFileAddress.path {
-            let dotData = graph.dotDescriptionWithName(name).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+            let dotData = dotDescriptionOfGraph(graph, withName: name).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
             NSFileManager.defaultManager().createFileAtPath(dotFilePath, contents: dotData, attributes: nil)
         }
+    }
+    
+    public static func dotDescriptionOfGraph<N, E: Hashable>(graph: SGGraph<N,E>, withName name: String) -> String {
+        var dotDescription = "digraph \(name) {"
+        
+        for edge in graph.edges {
+            dotDescription += "\n\t\(edge.nodeStart.nodeID) -> \(edge.nodeEnd.nodeID);"
+        }
+        
+        return dotDescription + "\n}\n"
     }
 }
