@@ -59,6 +59,26 @@ public class SGNode<N,E: Hashable>: Equatable, Hashable, Printable {
         
         return nodesIn
     }()
+    
+    public func getEdgeToNodeWithID(nodeID: Int) -> SGEdge<N,E>? {
+        let nodesWithGivenID = filter(edgesOut) {(edge: SGEdge<N,E>) -> Bool in
+            return edge.nodeEnd.nodeID == nodeID
+        }
+        
+        assert(nodesWithGivenID.count < 2, "More than one node with given ID, something went wrong")
+        
+        return nodesWithGivenID.first
+    }
+    
+    public func getEdgeFromNodeWithID(nodeID: Int) -> SGEdge<N,E>? {
+        let nodesWithGivenID = filter(edgesIn) {(edge: SGEdge<N,E>) -> Bool in
+            return edge.nodeStart.nodeID == nodeID
+        }
+        
+        assert(nodesWithGivenID.count < 2, "More than one node with given ID, something went wrong")
+        
+        return nodesWithGivenID.first
+    }
 }
 
 public func ==<N,E>(lhs: SGNode<N,E>, rhs: SGNode<N,E>) -> Bool {
