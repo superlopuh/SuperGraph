@@ -40,7 +40,7 @@ public class SGNode<N,E: Hashable>: Equatable, Hashable, Printable {
         return description
     }
     
-    public lazy var nodesOut: Set<SGNode<N,E>> = {
+    public var nodesOut: Set<SGNode<N,E>> {
         var nodesOut = Set<SGNode<N,E>>()
         
         for edge in self.edgesOut {
@@ -48,9 +48,9 @@ public class SGNode<N,E: Hashable>: Equatable, Hashable, Printable {
         }
         
         return nodesOut
-    }()
+    }
     
-    public lazy var nodesIn: Set<SGNode<N,E>> = {
+    public var nodesIn: Set<SGNode<N,E>> {
         var nodesIn = Set<SGNode<N,E>>()
         
         for edge in self.edgesIn {
@@ -58,7 +58,7 @@ public class SGNode<N,E: Hashable>: Equatable, Hashable, Printable {
         }
         
         return nodesIn
-    }()
+    }
     
     public func getEdgeToNodeWithID(nodeID: Int) -> SGEdge<N,E>? {
         let nodesWithGivenID = filter(edgesOut) {(edge: SGEdge<N,E>) -> Bool in
