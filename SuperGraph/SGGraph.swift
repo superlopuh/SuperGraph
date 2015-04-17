@@ -74,6 +74,16 @@ public class SGGraph<N, E: Hashable>: Printable {
         return edges
     }
     
+    public func getNodeWithID(nodeID: Int) -> SGNode<N,E>? {
+        let nodesWithGivenID = filter(nodes) {(node: SGNode<N,E>) -> Bool in
+            return node.nodeID == nodeID
+        }
+        
+        assert(nodesWithGivenID.count < 2, "More than one node with given ID, something went wrong")
+        
+        return nodesWithGivenID.first
+    }
+    
     public var hamiltonianPaths: [[SGEdge<N,E>]] {
         
         // Assume path exists
