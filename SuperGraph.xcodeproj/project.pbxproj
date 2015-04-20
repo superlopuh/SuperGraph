@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A62AC7CD1AB83B9A008EF5CF /* SGPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = A62AC7CC1AB83B9A008EF5CF /* SGPath.swift */; };
 		A68426B71AE131E9003AD854 /* SGDOTWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68426B61AE131E9003AD854 /* SGDOTWriter.swift */; };
 		A6FB451D1AA6659F00B44750 /* SuperGraph.h in Headers */ = {isa = PBXBuildFile; fileRef = A6FB451C1AA6659F00B44750 /* SuperGraph.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A6FB45231AA6659F00B44750 /* SuperGraph.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A6FB45171AA6659F00B44750 /* SuperGraph.framework */; };
@@ -28,7 +27,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A62AC7CC1AB83B9A008EF5CF /* SGPath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SGPath.swift; sourceTree = "<group>"; };
 		A68426B61AE131E9003AD854 /* SGDOTWriter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SGDOTWriter.swift; sourceTree = "<group>"; };
 		A6FB45171AA6659F00B44750 /* SuperGraph.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SuperGraph.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6FB451B1AA6659F00B44750 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -83,7 +81,6 @@
 			children = (
 				A6FB451C1AA6659F00B44750 /* SuperGraph.h */,
 				A6FB45BD1AA666F800B44750 /* SGEdge.swift */,
-				A62AC7CC1AB83B9A008EF5CF /* SGPath.swift */,
 				A6FB45BE1AA666F800B44750 /* SGGraph.swift */,
 				A6FB45BF1AA666F800B44750 /* SGNode.swift */,
 				A68426B61AE131E9003AD854 /* SGDOTWriter.swift */,
@@ -227,7 +224,6 @@
 				A6FB45C21AA666F800B44750 /* SGNode.swift in Sources */,
 				A68426B71AE131E9003AD854 /* SGDOTWriter.swift in Sources */,
 				A6FB45C11AA666F800B44750 /* SGGraph.swift in Sources */,
-				A62AC7CD1AB83B9A008EF5CF /* SGPath.swift in Sources */,
 				A6FB45C01AA666F800B44750 /* SGEdge.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
