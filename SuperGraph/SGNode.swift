@@ -15,6 +15,7 @@ public class SGNode<N,E: Hashable>: Equatable, Hashable, Printable {
     
     public let nodeID: Int
     public var value: ValueType
+    public var label: String
     public var edgesIn: Set<SGEdge<N,EdgeValueType>>  = Set<SGEdge<N,EdgeValueType>>()
     public var edgesOut: Set<SGEdge<N,EdgeValueType>> = Set<SGEdge<N,EdgeValueType>>()
     
@@ -22,20 +23,21 @@ public class SGNode<N,E: Hashable>: Equatable, Hashable, Printable {
         return nodeID
     }
     
-    init(nodeID: Int, value: ValueType) {
+    init(nodeID: Int, value: ValueType, label: String = "") {
         self.nodeID = nodeID
         self.value  = value
+        self.label  = nodeID.description
     }
     
     public var description: String {
-        var description = "Node: id \(nodeID)\n"
+        var description = "Node: id \(nodeID), label \(label)\n"
         description += "Edges out: "
         for edge in edgesOut {
-            description += " \(edge.nodeEnd.nodeID)"
+            description += " \(edge.nodeEnd.label)"
         }
         description += "\nEdges in: "
         for edge in edgesIn {
-            description += " \(edge.nodeStart.nodeID)"
+            description += " \(edge.nodeStart.label)"
         }
         return description
     }

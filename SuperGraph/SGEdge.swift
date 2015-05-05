@@ -32,7 +32,7 @@ public class SGEdge<N,E: Hashable>: Equatable, Hashable, Printable {
     }
     
     public var description: String {
-        return "\(nodeStart.nodeID) -> \(nodeEnd.nodeID)"
+        return "\(nodeStart.label) -> \(nodeEnd.label)"
     }
 }
 

@@ -21,6 +21,14 @@ public class SGGraph<N, E: Hashable>: Printable {
         
     }
     
+    public func addNode(nodeValue: NodeValueType, withLabel label: String) -> SGNode<NodeValueType, EdgeValueType> {
+        let newNode = SGNode<NodeValueType, EdgeValueType>(nodeID: nodeIDCounter, value: nodeValue, label: label)
+        nodeIDCounter++
+        assert(!nodes.contains(newNode), "Error while inserting node")
+        nodes.insert(newNode)
+        return newNode
+    }
+    
     public func addNode(nodeValue: NodeValueType) -> SGNode<NodeValueType, EdgeValueType> {
         let newNode = SGNode<NodeValueType, EdgeValueType>(nodeID: nodeIDCounter, value: nodeValue)
         nodeIDCounter++
@@ -46,16 +54,16 @@ public class SGGraph<N, E: Hashable>: Printable {
         
         description += "Nodes:\n"
         for node in nodes {
-            description += "Node \(node.nodeID):\t \n\(node.value)\n\n"
+            description += "Node \(node.label):\t \n\(node.value)\n\n"
         }
         description += "\n"
         
         description += "Adjacency:\n"
         for node in nodes {
-            description += NSString(format: "Node %3d", node.nodeID) as String
+            description += "Node \(node.label)"
             description += ": \t"
             for edge in node.edgesOut {
-                description += "\(edge.nodeEnd.nodeID) "
+                description += "\(edge.nodeEnd.label) "
             }
             description += "\n"
         }

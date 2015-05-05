@@ -35,7 +35,7 @@ public class SGDOTWriter {
         var dotDescription = "digraph \(name) {"
         
         for edge in graph.edges {
-            dotDescription += "\n\t\(edge.nodeStart.nodeID) -> \(edge.nodeEnd.nodeID);"
+            dotDescription += "\n\t\(edge.nodeStart.label) -> \(edge.nodeEnd.label);"
         }
         
         return dotDescription + "\n}\n"
